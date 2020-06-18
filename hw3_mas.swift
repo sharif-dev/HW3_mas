@@ -35,6 +35,19 @@ class Trie{
         }
         
     }
+    
+    func containWord(string: String) -> Bool{
+        var mainNode = root
+        for char in string! {
+            let nextNode = mainNode.children[char]
+            if (nextNode != nil){
+                mainNode = nextNode!!
+            } else {
+                return false
+            }
+        }
+        return true
+    }
 }
 
 var n = Node(char : "s",x: 1,y: 2,children: [:])
