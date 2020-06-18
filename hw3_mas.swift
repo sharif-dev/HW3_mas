@@ -1,60 +1,64 @@
 import Foundation
 
 class Node {
-    var char: Character
-    var x: Int 
-    var y: Int 
-    var children = Dictionary<Character, Node?>()
-    
-    init(char:Character ,x : Int, y:Int,children:Dictionary<Character, Node>){
-        self.char = char
-        self.x = x
-        self.y = y
-        self.children = children
-        
+    var children = Dictionary<Character, Node>()
+    var isEnd = false
+    init(){
+        self.children = Dictionary<Character, Node>() 
+        self.isEnd = false
     }
 }
 
 class Trie{
     var root : Node
     init() {
-        self.root = Node(char: "0", x: -1, y: -1, children: [:])
+        self.root = Node()
     }
 
-
-    func addNode(charList : [Node]) {
-        var mainNode = root 
-        for node in charList{
-            let nextNode = mainNode.children[node.char]
-            if (nextNode != nil) {
-                mainNode =  nextNode!!
-            } else {
-                mainNode.children[node.char] = node
-                mainNode = node
+    func insert(key:String){
+        var node = root
+        for char in key{
+            var nextNode = node.children[char]
+            if nextNode ==  nil{
+                nextNode = Node()
+                node.children[char] = nextNode
             }
+            node = nextNode!
         }
+    }   
+    // func addNode(charList : [Node]) {
+    //     var mainNode = root 
+    //     for node in charList{
+    //         let nextNode = mainNode.children[node.char]
+    //         if (nextNode != nil) {
+    //             mainNode =  nextNode!!
+    //         } else {
+    //             mainNode.children[node.char] = node
+    //             mainNode = node
+    //         }
+    //     }
         
-    }
-    
+    // }
+
     func containWord(string: String) -> Bool{
         var mainNode = root
-        for char in string! {
+        for char in string {
             let nextNode = mainNode.children[char]
             if (nextNode != nil){
-                mainNode = nextNode!!
+                mainNode = nextNode!
             } else {
                 return false
             }
         }
-        return true
+        if mainNode.isEnd {
+            return true
+        }
+        return false
     }
 }
 
-var n = Node(char : "s",x: 1,y: 2,children: [:])
-var n1 = Node(char:"r",x: 2,y: 3,children: [:])
-var n2 = Node(char: "x", x:1, y:4,children: [:])
 var x = Trie()
-x.addNode(charList:[n, n1])
-x.addNode(charList:[n, n2])
-x.addNode(charList:[n2])
-print(x.root.children["s"]!!.children)
+x.insert(key:"sre")
+x.insert(key:"stre")
+x.insert(key:"t")
+print(x.root.children)
