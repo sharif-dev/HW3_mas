@@ -25,6 +25,7 @@ class Trie{
             }
             node = nextNode!
         }
+        node.isEnd = true
     }   
     // func addNode(charList : [Node]) {
     //     var mainNode = root 
